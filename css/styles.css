@@ -38,7 +38,7 @@ td.infobox-vrow-value, .infobox tr td.infobox-extra {
     
 }
 
-.factorio-icon[style*="background-color:#999"], .factorio-icon[style*="background-color:#929292"] {
+.factorio-icon[style*="background-color:#999"], .factorio-icon[style*="background-color:#929292"] , .factorio-icon[style*="background-color: rgb(153, 153, 153);"] {
     background: radial-gradient(#909090,#6b6b6c);
     border-top: 1px solid #CCC;
     border-left: 1px solid #CCC;
