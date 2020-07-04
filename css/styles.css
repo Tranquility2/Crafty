@@ -13,3 +13,55 @@ html, body {
     position: relative;
     line-height: 1.6;
 }
+
+table {
+    font-size: 100%;
+}
+
+td {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.infobox-vrow-value {
+    border: 1px solid #1f1f1f;
+    background-color: #333;
+    color: #c1c1c1;
+    
+    display: flex;
+    align-items: center;
+}
+
+td.infobox-vrow-value, .infobox tr td.infobox-extra {
+    border-top: 2px solid #3e3e3e;
+    border-bottom: 2px solid #3e3e3e;
+    
+}
+
+.factorio-icon[style*="background-color:#999"], .factorio-icon[style*="background-color:#929292"] {
+    background: radial-gradient(#909090,#6b6b6c);
+    border-top: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #2A2A2A;
+    border-bottom: 1px solid #2A2A2A;
+}
+.factorio-icon {
+    display: inline-block;
+    margin: 5px;
+    position: relative;
+    padding: 3px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #4B4543;
+}
+
+.factorio-icon-text {
+    position: absolute;
+    bottom: -3px;
+    right: 2px;
+    color: #fff;
+    font-size: smaller;
+    font-weight: bold;
+    text-shadow: 0px 1px 1px #000, 0px -1px 1px #000, 1px 0px 1px #000, -1px 0px 1px #000;
+    pointer-events: none;
+}
