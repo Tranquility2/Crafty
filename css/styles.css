@@ -63,5 +63,5 @@ td.infobox-vrow-value, .infobox tr td.infobox-extra {
     font-size: smaller;
     font-weight: bold;
     text-shadow: 0px 1px 1px #000, 0px -1px 1px #000, 1px 0px 1px #000, -1px 0px 1px #000;
-    pointer-events: none;
+
 }
