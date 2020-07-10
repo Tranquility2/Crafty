@@ -29,25 +29,24 @@ function BuildIconElement(icon_url, count, icon_type) {
 
     text_elem = document.createElement("div");
     text_elem.className = "factorio-icon-text"
-    text_elem.innerHTML = count
+    text_elem.append(count);
     icon_elem.appendChild(text_elem);
 
     return icon_elem
 }
 
 function Reset() {
-    build_area.innerHTML =""
     build_area.appendChild(BuildIconElement(icon_url="", count="1", icon_type=IconType.Input));
-    build_area.innerHTML += "→";
+    build_area.append("→");
     build_area.appendChild(BuildIconElement(icon_url="", count="1", icon_type=IconType.Output));
 }
 
 function AddIcon(icon_type) {
     if (icon_type==IconType.Input) {
-        build_area.innerHTML = "+" + build_area.innerHTML
+        build_area.prepend("+")
         build_area.prepend(BuildIconElement(icon_url="", count="1", icon_type=IconType.Input));
     } else if (icon_type==IconType.Output) {
-        build_area.innerHTML += "+";
+        build_area.append("+");
         build_area.appendChild(BuildIconElement(icon_url="", count="1", icon_type=IconType.Output));
     } else {
         console.log("%s is not a valid option", icon_type)
