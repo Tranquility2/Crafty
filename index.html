@@ -13,19 +13,19 @@
 
 <body>
     <form>
-        <label for="inputs">Inputs (between 1 and 3):</label>
-        <input type="number" id="inputs" name="inputs" min="1" max="3" value=1>
+        <label for="inputs">Inputs (between 1 and 6):</label>
+        <input type="number" id="inputs" name="inputs" min="1" max="6" value=1>
         <br>
-        <label for="outputs">Outputs (between 1 and 6):</label>
-        <input type="number" id="outputs" name="outputs" min="1" max="6" value=1>
+        <label for="outputs">Outputs (between 1 and 3):</label>
+        <input type="number" id="outputs" name="outputs" min="1" max="3" value=1>
         <br>
         <input type="checkbox" id="add_time" name="add_time">
         <label for="add_time">Timed</label><br>
     </form>
 
-    <script src="js/script.js"></script>
-
-    <input id="build" type="button" value="Build" onclick="build();" />
+    <input id="test" type="button" value="Test" onclick="AddEmptyIcon();" />
+    <input id="build" type="button" value="Build" onclick="CreateBuild();" />
+    <input id="clean" type="button" value="Clean" onclick="CleanBuildArea();" />
 
     <table>
         <tbody>
@@ -36,6 +36,10 @@
             </tr>
             <tr>
                 <td id="build_area" class="infobox-vrow-value" colspan="2">
+                </td>
+            </tr>
+            <tr hidden>
+                <td id="test_build_area" class="infobox-vrow-value" colspan="2">
                     <div class="factorio-icon" style="background-color:#999;"><title="Time"><img alt="Time icon.png" src="https://wiki.factorio.com/images/Time_icon.png" width="32" height="32"><div class="factorio-icon-text">10</div></div>+
                     <div class="factorio-icon" style="background-color:#999;"><title="Iron ore"><img alt="Iron ore.png" src="https://wiki.factorio.com/images/thumb/Iron_ore.png/32px-Iron_ore.png" width="32" height="32" srcset="/images/thumb/Iron_ore.png/48px-Iron_ore.png 1.5x, /images/Iron_ore.png 2x"><div class="factorio-icon-text">1</div></div>+
                     <div class="factorio-icon" style="background-color:#999;"><title="Stone brick"><img alt="Stone brick.png" src="https://wiki.factorio.com/images/thumb/Stone_brick.png/32px-Stone_brick.png" width="32" height="32" srcset="/images/thumb/Stone_brick.png/48px-Stone_brick.png 1.5x, /images/Stone_brick.png 2x"><div class="factorio-icon-text">5</div></div>+
@@ -45,6 +49,9 @@
             </tr>
         </tbody>
     </table>
+
+    <script src="js/script.js"></script>
+
 </body>
 
 </html>
