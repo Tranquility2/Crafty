@@ -49,6 +49,12 @@ function BuildIconElement(icon_url, count, icon_type) {
     return icon_elem
 }
 
+function imageFile(event) {
+    console.log("New image file:" + event.target.files[0])
+    const imageUrl = URL.createObjectURL(event.target.files[0]);
+    document.getElementById('imageUrl').value = imageUrl;
+}
+
 function updateIcon() {
     if (currentlyEditedIcon) {
         const imageUrlInput = document.getElementById('imageUrl');
@@ -66,6 +72,7 @@ function updateIcon() {
                 img_elem.height = icon_height;
                 img_elem.width = icon_width;
                 currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
+                console.log("New image updated: " + newImageUrl)
             }
         } else if (img_elem) {
             currentlyEditedIcon.removeChild(img_elem);
