@@ -1,8 +1,11 @@
 time_icon_url = 'https://wiki.factorio.com/images/Time_icon.png'
 
 // Size in pixels
-icon_height = "32"
-icon_width = "32"
+const icon_height = "32";
+const icon_width = "32";
+
+// Variable to store the currently edited icon element
+let currentlyEditedIcon = null;
 
 var IconType = {
     Input: 'input',
@@ -14,10 +17,18 @@ function BuildIconElement(icon_url, count, icon_type) {
     console.log("Adding %s Icon (count=%s, url=%s)", icon_type, count, icon_url)
     var icon_elem = document.createElement("div");
     icon_elem.className = "factorio-icon";
-    icon_elem.style.backgroundColor = "#999";
-    icon_elem.onclick = function() {
-        alert('t')
-    };
+    icon_elem.style.backgroundColor = "#999"; // Placeholder style
+    icon_elem.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default click behavior
+        event.stopPropagation(); // Stop the event from bubbling up
+        const clickedIcon = event.currentTarget; // Get the clicked icon element
+        currentlyEditedIcon = clickedIcon; // Store the clicked icon element
+
+        document.getElementById('imageUrl').value = clickedIcon.querySelector('img') ? clickedIcon.querySelector('img').src : '';
+        document.getElementById('count').value = clickedIcon.querySelector('.factorio-icon-text').textContent;
+        document.getElementById('editFrame').style.display = 'block'; // Show the edit frame
+        editFrame.dataset.editingIcon = clickedIcon.dataset.iconId; // Store the ID of the icon being edited
+    });
 
     if (icon_url) {
         img_elem = document.createElement("IMG");
@@ -33,7 +44,17 @@ function BuildIconElement(icon_url, count, icon_type) {
     icon_elem.appendChild(text_elem);
 
     icon_elem.dataset.iconType = icon_type;
+    icon_elem.dataset.iconId = Date.now() + Math.random(); // Assign a unique ID
     return icon_elem
+}
+
+function updateIcon() {
+    if (currentlyEditedIcon) {
+        const countInput = document.getElementById('count');
+        currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = countInput.value;
+        document.getElementById('editFrame').style.display = 'none'; // Hide the edit frame
+        currentlyEditedIcon = null; // Clear the reference
+    }
 }
 
 function Reset() { // build_area must be defined
@@ -131,3 +152,8 @@ function RemoveIcon(icon_type) {
 
 build_area = document.getElementById("build_area");
 Reset();
+
+document.addEventListener('DOMContentLoaded', function() {
+    const updateButton = document.getElementById('updateIcon');
+    updateButton.addEventListener('click', updateIcon);
+});
