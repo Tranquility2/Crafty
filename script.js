@@ -24,9 +24,10 @@ function BuildIconElement(icon_url, count, icon_type) {
         const clickedIcon = event.currentTarget; // Get the clicked icon element
         currentlyEditedIcon = clickedIcon; // Store the clicked icon element
 
+        const editFrame = document.getElementById('editFrame');
         document.getElementById('imageUrl').value = clickedIcon.querySelector('img') ? clickedIcon.querySelector('img').src : '';
         document.getElementById('count').value = clickedIcon.querySelector('.factorio-icon-text').textContent;
-        document.getElementById('editFrame').style.display = 'block'; // Show the edit frame
+        editFrame.style.display = 'block'; // Show the edit frame
         editFrame.dataset.editingIcon = clickedIcon.dataset.iconId; // Store the ID of the icon being edited
     });
 
@@ -50,7 +51,26 @@ function BuildIconElement(icon_url, count, icon_type) {
 
 function updateIcon() {
     if (currentlyEditedIcon) {
+        const imageUrlInput = document.getElementById('imageUrl');
         const countInput = document.getElementById('count');
+        const newImageUrl = imageUrlInput.value;
+
+        let img_elem = currentlyEditedIcon.querySelector('img');
+
+        if (newImageUrl) {
+            if (img_elem) {
+                img_elem.src = newImageUrl;
+            } else {
+                img_elem = document.createElement("IMG");
+                img_elem.src = newImageUrl;
+                img_elem.height = icon_height;
+                img_elem.width = icon_width;
+                currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
+            }
+        } else if (img_elem) {
+            currentlyEditedIcon.removeChild(img_elem);
+        }
+
         currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = countInput.value;
         document.getElementById('editFrame').style.display = 'none'; // Hide the edit frame
         currentlyEditedIcon = null; // Clear the reference
