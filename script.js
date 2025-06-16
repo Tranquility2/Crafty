@@ -178,10 +178,28 @@ function RemoveIcon(icon_type) {
     }
 }
 
+function generateImage() {
+    const buildArea = document.getElementById('build_area');
+    html2canvas(buildArea).then(function(canvas) {
+        // Convert canvas to data URL
+        const dataURL = canvas.toDataURL();
+
+        // Create a new image element
+        const img = document.createElement('img');
+        img.src = dataURL;
+
+        // Append the image to the body
+        document.body.appendChild(img);
+    });
+}
+
 build_area = document.getElementById("build_area");
 Reset();
 
 document.addEventListener('DOMContentLoaded', function () {
     const updateButton = document.getElementById('updateIcon');
     updateButton.addEventListener('click', updateIcon);
+
+    const generateImageButton = document.getElementById('generateImage');
+    generateImageButton.addEventListener('click', generateImage);
 });
