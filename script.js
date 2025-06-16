@@ -18,7 +18,7 @@ function BuildIconElement(icon_url, count, icon_type) {
     var icon_elem = document.createElement("div");
     icon_elem.className = "factorio-icon";
     icon_elem.style.backgroundColor = "#999"; // Placeholder style
-    icon_elem.addEventListener('click', function(event) {
+    icon_elem.addEventListener('click', function (event) {
         event.preventDefault(); // Prevent default click behavior
         event.stopPropagation(); // Stop the event from bubbling up
         const clickedIcon = event.currentTarget; // Get the clicked icon element
@@ -53,6 +53,7 @@ function imageFile(event) {
     console.log("New image file:" + event.target.files[0])
     const imageUrl = URL.createObjectURL(event.target.files[0]);
     document.getElementById('imageUrl').value = imageUrl;
+    event.target.value = ''; // Clear the file input
 }
 
 function updateIcon() {
@@ -180,7 +181,7 @@ function RemoveIcon(icon_type) {
 build_area = document.getElementById("build_area");
 Reset();
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const updateButton = document.getElementById('updateIcon');
     updateButton.addEventListener('click', updateIcon);
 });
