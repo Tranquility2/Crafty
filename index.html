@@ -6,7 +6,7 @@
     <title>Crafty</title>
     <meta name="description" content="Create factorio like recipe">
     <meta name="author" content="Roy Moore">
-    <link rel="stylesheet" href="styles.css?v=1.0">
+    <link rel="stylesheet" href="styles.css?v=1.2">
 </head>
 
 <body>
@@ -19,20 +19,32 @@
             </tr>
             <tr>
                 <td>
-                    <button onclick="AddIcon(IconType.Input)">+</button>
-                    <button onclick="RemoveIcon(IconType.Input)">-</button>
+                    <div>
+                        <button class="AddIcon" onclick="AddIcon(IconType.Input)">+</button>
+                    </div>
+                    <div>
+                        <button class="RemoveIcon" onclick="RemoveIcon(IconType.Input)">-</button>
+                    </div>
+
+
                 </td>
                 <td id="build_area" class="infobox-vrow-value" colspan="2">
                 </td>
                 <td>
-                    <button onclick="AddIcon(IconType.Output)">+</button>
-                    <button onclick="RemoveIcon(IconType.Output)">-</button>
+                    <div>
+                        <button class="AddIcon" onclick="AddIcon(IconType.Output)">+</button>
+                    </div>
+                    <div>
+                        <button class="RemoveIcon" onclick="RemoveIcon(IconType.Output)">-</button>
+                    </div>
+
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <div id="editFrame" style="display: none; position: absolute; border: 1px solid black; background-color: white; padding: 10px;">
+    <div id="editFrame"
+        style="display: none; position: absolute; border: 1px solid black; background-color: white; padding: 10px;">
         <label for="imageUrl">Image URL:</label>
         <input type="text" id="imageUrl"><br><br>
 
