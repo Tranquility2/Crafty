@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -27,24 +28,28 @@ td {
     border: 1px solid #1f1f1f;
     background-color: #333;
     color: #c1c1c1;
-    
+
     display: flex;
     align-items: center;
 }
 
-td.infobox-vrow-value, .infobox tr td.infobox-extra {
+td.infobox-vrow-value,
+.infobox tr td.infobox-extra {
     border-top: 2px solid #3e3e3e;
     border-bottom: 2px solid #3e3e3e;
-    
+
 }
 
-.factorio-icon[style*="background-color:#999"], .factorio-icon[style*="background-color:#929292"] , .factorio-icon[style*="background-color: rgb(153, 153, 153);"] {
-    background: radial-gradient(#909090,#6b6b6c);
+.factorio-icon[style*="background-color:#999"],
+.factorio-icon[style*="background-color:#929292"],
+.factorio-icon[style*="background-color: rgb(153, 153, 153);"] {
+    background: radial-gradient(#909090, #6b6b6c);
     border-top: 1px solid #CCC;
     border-left: 1px solid #CCC;
     border-right: 1px solid #2A2A2A;
     border-bottom: 1px solid #2A2A2A;
 }
+
 .factorio-icon {
     display: inline-block;
     margin: 5px;
@@ -64,4 +69,15 @@ td.infobox-vrow-value, .infobox tr td.infobox-extra {
     font-weight: bold;
     text-shadow: 0px 1px 1px #000, 0px -1px 1px #000, 1px 0px 1px #000, -1px 0px 1px #000;
 
+}
+
+.button-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.AddIcon,
+.RemoveIcon {
+    height: 22px;
+    width: 32px;
 }
