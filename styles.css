@@ -90,3 +90,8 @@ footer {
     background-color: #333; /* Match the body background */
     padding: 10px 0;
 }
+
+#version {
+    font-size: small;
+    font-style: italic;
+}
