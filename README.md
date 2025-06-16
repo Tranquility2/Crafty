@@ -1,18 +1,16 @@
+![Crafty Recipe Example](assets/new.jpg)
+
 # Crafty
 
 Crafty is a simple web application that allows users to create and visualize Factorio-like recipes.
 
-## Project Structure
-
-*   `index.html`: The main HTML file providing the structure of the application.
-*   `styles.css`: Contains the CSS for styling the web page.
-*   `script.js`: Contains the JavaScript for handling user interactions and recipe creation logic.
-
 ## How to Use
 
-Open `index.html` in your web browser to use the application. Use the provided buttons to add input and output icons to the recipe build area.
+Open `index.html` in your web browser to use the application.
 
-## Features
-
-*   Visual recipe creation area.
-*   Add input and output icons.
+- **Adding/Removing Icons:** Use the `+` and `-` buttons next to the input and output areas to add or remove icons.
+- **Updating Icons:** Click on an existing icon to open an edit frame. Here you can:
+    - Provide an image URL or upload an image file to change the icon's appearance. 🖼️
+    - Adjust the count displayed on the icon. 🔢
+    - Click "Update" to apply your changes.
+- **Generating Image:** Click the "Generate Image" button to create a static image of the current recipe build area. 📷 (Note: May encounter issues with images from external URLs due to cross-origin restrictions. This feature uses the `dom-to-image` library.)
