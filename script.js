@@ -44,10 +44,30 @@ function Reset() { // build_area must be defined
 
 function AddIcon(icon_type) {
     if (icon_type == IconType.Input) {
-        build_area.prepend("+")
-        build_area.prepend(BuildIconElement(icon_url = "", count = "1", icon_type = IconType.Input));
+        // Find the index of the "→"
+        let arrowIndex = -1;
+        for (let i = 0; i < build_area.childNodes.length; i++) {
+            if (build_area.childNodes[i].textContent === "→") {
+                arrowIndex = i;
+                break;
+            }
+        }
+        build_area.insertBefore(BuildIconElement(icon_url = "", count = "1", icon_type = IconType.Input), build_area.childNodes[arrowIndex]);
+        // Insert the '+' before the newly added input icon, but only if it's not the first element
+        if (arrowIndex > 0) {
+            build_area.insertBefore(document.createTextNode("+"), build_area.childNodes[arrowIndex]);
+        }
     } else if (icon_type == IconType.Output) {
-        build_area.append("+");
+        // Find the index of the "→"
+        let arrowIndex = -1;
+        for (let i = 0; i < build_area.childNodes.length; i++) {
+            if (build_area.childNodes[i].textContent === "→") {
+                arrowIndex = i;
+                break;
+            }
+        }
+        // Insert the '+' before the output icon if it's not the last element
+        build_area.appendChild(document.createTextNode("+"));
         build_area.appendChild(BuildIconElement(icon_url = "", count = "1", icon_type = IconType.Output));
     } else {
         console.log("%s is not a valid option", icon_type)
@@ -74,14 +94,17 @@ function RemoveIcon(icon_type) {
             console.log("Cannot remove last input icon.");
             return; // Prevent removal
         }
-        // Find the last input icon and remove it
-        for (let i = build_area.childNodes.length - 1; i >= 0; i--) {
+        // Find the first instance of a '+' followed by an input icon and remove both
+        for (let i = 0; i < build_area.childNodes.length; i++) {
             const node = build_area.childNodes[i];
-            if (node.classList && node.classList.contains('factorio-icon') && node.dataset.iconType === IconType.Input) {
+            // Check if the current node is a '+' and the next node is an input icon
+            if (node.textContent === "+" && i + 1 < build_area.childNodes.length &&
+                build_area.childNodes[i + 1].classList && build_area.childNodes[i + 1].classList.contains('factorio-icon') &&
+                build_area.childNodes[i + 1].dataset.iconType === IconType.Input) {
+                // Remove the '+'
                 build_area.removeChild(node);
-                if (i > 0 && build_area.childNodes[i - 1].textContent === "+") {
-                    build_area.removeChild(build_area.childNodes[i - 1]);
-                }
+                // Remove the input icon (which is now at index i)
+                build_area.removeChild(build_area.childNodes[i]);
                 break;
             }
         }
