@@ -70,28 +70,38 @@ function updateIcon() {
     console.log("Updating icon");
     if (currentlyEditedIcon) {
         const imageUrlInput = document.getElementById('imageUrl');
-        const countInput = document.getElementById('count');
+        const countInput = document.getElementById('count').value;
         const newImageUrl = imageUrlInput.value;
 
         let img_elem = currentlyEditedIcon.querySelector('img');
 
         if (newImageUrl) {
-            if (img_elem) {
-                img_elem.src = newImageUrl;
-            } else {
-                img_elem = document.createElement("IMG");
-                img_elem.src = newImageUrl;
-                img_elem.height = icon_height;
-                img_elem.width = icon_width;
-                currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
-            }
+            console.log("Fetching new image")
+            fetch(newImageUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const reader = new FileReader();
+                    reader.onloadend = function () {
+                        img_elem.src = reader.result; // Set the base64 string as the image source
+                    };
+                    reader.readAsDataURL(blob); // Convert the blob to a base64 string
+                })
+                .catch(error => console.error('Error fetching image:', error));
+
+            console.log("Creating new image")
+            img_elem = document.createElement("IMG");
+            img_elem.height = icon_height;
+            img_elem.width = icon_width;
+            console.log("Inserting new image")
+            currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
         } else if (img_elem) {
             currentlyEditedIcon.removeChild(img_elem);
         }
 
-        currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = countInput.value;
-        document.getElementById('editFrame').style.display = 'none'; // Hide the edit frame
+        document.getElementById('editFrame').style.display = 'none';
         currentlyEditedIcon = null; // Clear the reference
+        imageUrlInput.value = ''; // Clear the URL input
+        console.log("Icon updated");
     }
 }
 
@@ -190,7 +200,7 @@ function RemoveIcon(icon_type) {
 
 function generateImage() {
     const buildArea = document.getElementById('build_area');
-    html2canvas(buildArea).then(function(canvas) {
+    html2canvas(buildArea).then(function (canvas) {
         // Convert canvas to data URL
         const dataURL = canvas.toDataURL();
 
