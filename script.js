@@ -50,13 +50,24 @@ function BuildIconElement(icon_url, count, icon_type) {
 }
 
 function imageFile(event) {
-    console.log("New image file:" + event.target.files[0])
+    console.log("New image file:" + event.target.files[0].name);
     const imageUrl = URL.createObjectURL(event.target.files[0]);
-    document.getElementById('imageUrl').value = imageUrl;
+    let img_elem = currentlyEditedIcon.querySelector('img');
+    if (img_elem) {
+        img_elem.src = imageUrl;
+    } else {
+        img_elem = document.createElement("IMG");
+        img_elem.src = imageUrl;
+        img_elem.height = icon_height;
+        img_elem.width = icon_width;
+        currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
+    }
     event.target.value = ''; // Clear the file input
+    document.getElementById('editFrame').style.display = 'none'; // Hide the edit frame
 }
 
 function updateIcon() {
+    console.log("Updating icon");
     if (currentlyEditedIcon) {
         const imageUrlInput = document.getElementById('imageUrl');
         const countInput = document.getElementById('count');
@@ -73,7 +84,6 @@ function updateIcon() {
                 img_elem.height = icon_height;
                 img_elem.width = icon_width;
                 currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
-                console.log("New image updated: " + newImageUrl)
             }
         } else if (img_elem) {
             currentlyEditedIcon.removeChild(img_elem);
