@@ -98,7 +98,7 @@ function updateIcon() {
             img_elem.width = icon_width;
             console.log("Inserting new image")
             currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
-        } else if (img_elem && imageUrlInput=="") {
+        } else if (img_elem && imageUrlInput == "") {
             console.log("Removing image")
             currentlyEditedIcon.removeChild(img_elem);
         }
@@ -107,6 +107,26 @@ function updateIcon() {
         currentlyEditedIcon = null; // Clear the reference
         imageUrlInput.value = ''; // Clear the URL input
         console.log("Icon updated");
+    }
+}
+
+function initIcon() {
+    if (currentlyEditedIcon) {
+        console.log("Initializing icon");
+        // Reset the image URL
+        const img_elem = currentlyEditedIcon.querySelector('img');
+        if (img_elem) {
+            img_elem.src = ""; // Set to an empty string or a default placeholder image URL
+            currentlyEditedIcon.removeChild(img_elem);
+        }
+           
+        // Reset the count to 1
+        const text_elem = currentlyEditedIcon.querySelector('.factorio-icon-text');
+        text_elem.textContent = "1";
+
+        document.getElementById('editFrame').style.display = 'none';
+        document.getElementById('imageUrl').value = ''; // Clear the URL input
+        currentlyEditedIcon = null; // Clear the reference
     }
 }
 
@@ -227,4 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const generateImageButton = document.getElementById('generateImage');
     generateImageButton.addEventListener('click', generateImage);
+
+    const initiButton = document.getElementById('initIcon');
+    initiButton.addEventListener('click', initIcon);
 });
