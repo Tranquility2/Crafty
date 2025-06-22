@@ -79,7 +79,7 @@ function updateIcon() {
         let img_elem = currentlyEditedIcon.querySelector('img');
         currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = countInput;
 
-        if (newImageUrl) {
+        if (newImageUrl && !img_elem) {
             console.log("Fetching new image")
             fetch(newImageUrl)
                 .then(response => response.blob())
@@ -98,7 +98,8 @@ function updateIcon() {
             img_elem.width = icon_width;
             console.log("Inserting new image")
             currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
-        } else if (img_elem) {
+        } else if (img_elem && imageUrlInput=="") {
+            console.log("Removing image")
             currentlyEditedIcon.removeChild(img_elem);
         }
 
