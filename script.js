@@ -52,6 +52,9 @@ function BuildIconElement(icon_url, count, icon_type) {
 function imageFile(event) {
     console.log("New image file:" + event.target.files[0].name);
     const imageUrl = URL.createObjectURL(event.target.files[0]);
+    const countInput = document.getElementById('count').value;
+    currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = countInput;
+
     let img_elem = currentlyEditedIcon.querySelector('img');
     if (img_elem) {
         img_elem.src = imageUrl;
@@ -74,6 +77,7 @@ function updateIcon() {
         const newImageUrl = imageUrlInput.value;
 
         let img_elem = currentlyEditedIcon.querySelector('img');
+        currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = countInput;
 
         if (newImageUrl) {
             console.log("Fetching new image")
