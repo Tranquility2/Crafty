@@ -31,6 +31,23 @@ function BuildIconElement(icon_url, count, icon_type) {
         editFrame.dataset.editingIcon = clickedIcon.dataset.iconId; // Store the ID of the icon being edited
     });
 
+    // Add drag and drop event listeners
+    icon_elem.addEventListener('dragover', function(event) {
+        event.preventDefault(); // Prevent default behavior to allow dropping
+        event.currentTarget.style.border = '2px dashed #000'; // Add visual indicator
+    });
+
+    icon_elem.addEventListener('dragleave', function(event) {
+        event.currentTarget.style.border = 'none'; // Remove visual indicator
+    });
+
+    icon_elem.addEventListener('drop', function(event) {
+        event.preventDefault(); // Prevent default behavior
+        event.currentTarget.style.border = 'none'; // Remove visual indicator
+        handleDroppedImage(event.dataTransfer.files[0], event.currentTarget);
+    });
+
+
     if (icon_url) {
         img_elem = document.createElement("IMG");
         img_elem.src = icon_url;
@@ -47,6 +64,28 @@ function BuildIconElement(icon_url, count, icon_type) {
     icon_elem.dataset.iconType = icon_type;
     icon_elem.dataset.iconId = Date.now() + Math.random(); // Assign a unique ID
     return icon_elem
+}
+
+function handleDroppedImage(file, targetIconElement) {
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imageUrl = e.target.result;
+            let img_elem = targetIconElement.querySelector('img');
+            if (img_elem) {
+                img_elem.src = imageUrl;
+            } else {
+                img_elem = document.createElement("IMG");
+                img_elem.src = imageUrl;
+                img_elem.height = icon_height; // Use the defined icon height
+                img_elem.width = icon_width; // Use the defined icon width
+                targetIconElement.insertBefore(img_elem, targetIconElement.querySelector('.factorio-icon-text')); // Insert before the text
+            }
+        };
+        reader.readAsDataURL(file); // Read the image file as a data URL
+    } else {
+        console.log("Dropped item is not an image file.");
+    }
 }
 
 function imageFile(event) {
