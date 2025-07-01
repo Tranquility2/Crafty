@@ -17,6 +17,9 @@ Click on an existing icon to open an edit frame. Here you can:
 ✔️ Click "Update" to apply your changes.
 - **Generating Image:**  
 📷 Click the "Generate Image" button to create a static image of the current recipe build area.
+💾 Click the "Save Image" button to save the image to your computer.
+
+---
 
 ## Drag and Drop Image Update
 
