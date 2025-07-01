@@ -262,17 +262,25 @@ function RemoveIcon(icon_type) {
     }
 }
 
+function generateImageAndDownload() {
+    const buildArea = document.getElementById('build_area');
+    html2canvas(buildArea).then(function (canvas) {
+        const dataURL = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+
+        link.href = dataURL;
+        link.download = 'crafty_recipe.png';
+        link.dispatchEvent(new MouseEvent('click'));
+    });
+}
+
 function generateImage() {
     const buildArea = document.getElementById('build_area');
     html2canvas(buildArea).then(function (canvas) {
-        // Convert canvas to data URL
         const dataURL = canvas.toDataURL();
-
-        // Create a new image element
         const img = document.createElement('img');
-        img.src = dataURL;
 
-        // Append the image to the body
+        img.src = dataURL;
         document.body.appendChild(img);
     });
 }
@@ -286,6 +294,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const generateImageButton = document.getElementById('generateImage');
     generateImageButton.addEventListener('click', generateImage);
+
+    const saveImageButton = document.getElementById('saveImage');
+    saveImageButton.addEventListener('click', generateImageAndDownload);
 
     const initiButton = document.getElementById('initIcon');
     initiButton.addEventListener('click', initIcon);
