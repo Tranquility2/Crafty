@@ -28,8 +28,10 @@ Click on an existing icon to open an edit frame. Here you can:
 
 ### Updates 
 #### Drag and Drop Image Update
+✨ You can also update an icon's image by simply dragging an image file from your computer and dropping it directly onto the desired icon in the input or output area.
 
-You can also update an icon's image by simply dragging an image file from your computer and dropping it directly onto the desired icon in the input or output area.
+#### Scaling Build Area
+🔬 You can now scale the build area using the button next to the input icons. 
 
 ---
 
