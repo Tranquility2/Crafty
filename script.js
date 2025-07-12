@@ -32,16 +32,16 @@ function BuildIconElement(icon_url, count, icon_type) {
     });
 
     // Add drag and drop event listeners
-    icon_elem.addEventListener('dragover', function(event) {
+    icon_elem.addEventListener('dragover', function (event) {
         event.preventDefault(); // Prevent default behavior to allow dropping
         event.currentTarget.style.border = '2px dashed #000'; // Add visual indicator
     });
 
-    icon_elem.addEventListener('dragleave', function(event) {
+    icon_elem.addEventListener('dragleave', function (event) {
         event.currentTarget.style.border = 'none'; // Remove visual indicator
     });
 
-    icon_elem.addEventListener('drop', function(event) {
+    icon_elem.addEventListener('drop', function (event) {
         event.preventDefault(); // Prevent default behavior
         event.currentTarget.style.border = 'none'; // Remove visual indicator
         handleDroppedImage(event.dataTransfer.files[0], event.currentTarget);
@@ -69,7 +69,7 @@ function BuildIconElement(icon_url, count, icon_type) {
 function handleDroppedImage(file, targetIconElement) {
     if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             const imageUrl = e.target.result;
             let img_elem = targetIconElement.querySelector('img');
             if (img_elem) {
@@ -158,7 +158,7 @@ function initIcon() {
             img_elem.src = ""; // Set to an empty string or a default placeholder image URL
             currentlyEditedIcon.removeChild(img_elem);
         }
-           
+
         // Reset the count to 1
         const text_elem = currentlyEditedIcon.querySelector('.factorio-icon-text');
         text_elem.textContent = "1";
@@ -285,10 +285,40 @@ function generateImage() {
     });
 }
 
-build_area = document.getElementById("build_area");
-Reset();
+function setupScaling() {
+    let currentScale = 1; // 1: 1x, 1.5: 1.5x, 2: 2x
+    const scaleButton = document.getElementById('scaleMainArea');
+    const scaleArea = document.getElementById('scale_area');
+    const buildArea = document.getElementById('build_area');
+
+    // Store initial dimensions
+    const initialWidth = scaleArea.offsetWidth;
+    const initialHeight = scaleArea.offsetHeight;
+    if (scaleButton && scaleArea) {
+        scaleButton.addEventListener('click', function () {
+            if (currentScale === 1) {
+                currentScale = 1.5;
+            } else if (currentScale === 1.5) {
+                currentScale = 2;
+            } else { // currentScale === 2
+                currentScale = 1;
+            }
+
+            scaleButton.textContent = currentScale + 'x';
+            // Apply scale transform
+            buildArea.style.transform = 'scale(' + currentScale + ')';
+            // Calculate and apply new dimensions
+            scaleArea.style.width = initialWidth * currentScale + 'px';
+            scaleArea.style.height = initialHeight * currentScale + 'px';
+            // Reset the origin to the top-left corner
+            scaleArea.style.transformOrigin = 'top left';
+        });
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
+ build_area = document.getElementById("build_area");
+ Reset();
     const updateButton = document.getElementById('updateIcon');
     updateButton.addEventListener('click', updateIcon);
 
@@ -300,4 +330,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const initiButton = document.getElementById('initIcon');
     initiButton.addEventListener('click', initIcon);
+
+    setupScaling();
 });
+

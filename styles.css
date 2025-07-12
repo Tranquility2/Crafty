@@ -40,6 +40,24 @@ td.infobox-vrow-value,
 
 }
 
+#build_area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    border: 1px solid #1f1f1f;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-top: 2px solid #3e3e3e;
+    border-bottom: 2px solid #3e3e3e;
+}
+
+#scale_area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .factorio-icon[style*="background-color:#999"],
 .factorio-icon[style*="background-color:#929292"],
 .factorio-icon[style*="background-color: rgb(153, 153, 153);"] {
@@ -74,6 +92,9 @@ td.infobox-vrow-value,
 .button-column {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    margin-right: 5px; 
+    margin-left: 5px;
 }
 
 .AddIcon,
@@ -87,11 +108,16 @@ footer {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #333; /* Match the body background */
+    background-color: #333;
     padding: 10px 0;
 }
 
 #version {
     font-size: small;
     font-style: italic;
+}
+
+#main_area {
+    display: flex;
+    align-items: center;
 }
