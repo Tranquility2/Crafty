@@ -6,42 +6,28 @@
     <title>Crafty</title>
     <meta name="description" content="Create factorio like recipe">
     <meta name="author" content="Roy Moore">
-    <link rel="stylesheet" href="styles.css?v=0.1.2">
+    <link rel="stylesheet" href="styles.css?v=0.1.9">
 </head>
 
 <body>
-    <table>
-        <tbody>
-            <tr class="border-top">
-                <td colspan="2">
-                    <p>Recipe</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>
-                        <button class="AddIcon" onclick="AddIcon(IconType.Input)">+</button>
-                    </div>
-                    <div>
-                        <button class="RemoveIcon" onclick="RemoveIcon(IconType.Input)">-</button>
-                    </div>
-
-
-                </td>
-                <td id="build_area" class="infobox-vrow-value" colspan="2">
-                </td>
-                <td>
-                    <div>
-                        <button class="AddIcon" onclick="AddIcon(IconType.Output)">+</button>
-                    </div>
-                    <div>
-                        <button class="RemoveIcon" onclick="RemoveIcon(IconType.Output)">-</button>
-                    </div>
-
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div>
+        <div>
+            <p>Recipe</p>
+        </div>
+        <div id="main_area">
+            <div class="button-column">
+                <button class="AddIcon" onclick="AddIcon(IconType.Input)">+</button>
+                <button class="RemoveIcon" onclick="RemoveIcon(IconType.Input)">-</button>
+            </div>
+            <div id="scale_area">
+                <div id="build_area"></div>
+            </div>
+            <div class="button-column">
+                <button class="AddIcon" onclick="AddIcon(IconType.Output)">+</button>
+                <button class="RemoveIcon" onclick="RemoveIcon(IconType.Output)">-</button>
+            </div>
+        </div>
+    </div>
 
     <div id="editFrame"
         style="display: none; border: 1px solid black; background-color: rgba(255, 255, 255, 0); padding: 10px;">
@@ -59,6 +45,7 @@
     </div>
 
     <div id="resultFrame">
+        <button id="scaleMainArea">1x</button>
         <button id="generateImage">Preview Image</button>
         <button id="saveImage">Save Image</button>
         <img id="resultImage">
@@ -66,16 +53,17 @@
 
     <footer>
         <div>
-            <span id="version">Version 0.1.8</span>
+            <span id="version">Version 0.1.9</span>
         </div>
 
         <a href="https://github.com/Tranquility2/Crafty" target="_blank">
-            <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+            <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"
+                alt="GitHub">
         </a>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="script.js?v=0.1.8"></script>
+    <script src="script.js?v=0.1.9"></script>
 </body>
 
 </html>
