@@ -1,0 +1,16 @@
+{
+  "name": "crafty",
+  "version": "0.1.9",
+  "description": "Create and visualize Factorio-like recipes",
+  "homepage": "https://tranquility2.github.io/Crafty/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tranquility2/Crafty.git"
+  },
+  "license": "MIT",
+  "author": "Roy Moore",
+  "private": true,
+  "scripts": {
+    "start": "npx live-server"
+  }
+}

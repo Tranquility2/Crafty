@@ -36,6 +36,20 @@ scheme vs. `http://`.
 
 ## Bumping the version
 
-`make version` runs `node update-version.js`, which increments the patch
-version in `version.txt` and updates the cache-buster query strings and
-footer in `index.html`.
+Versioning uses `npm version`, with `package.json` as the single source of
+truth (git tags are created automatically — no `version.txt`, no stamping).
+
+```sh
+npm version patch    # 0.1.9 -> 0.1.10   (same as: make version)
+npm version minor    # 0.1.9 -> 0.2.0    (same as: make version-minor)
+npm version major    # 0.1.9 -> 1.0.0    (same as: make version-major)
+```
+
+Each command bumps `version` in `package.json`, creates a git commit, and tags
+it `vX.Y.Z`. Push with `git push --follow-tags` (or `make push`).
+
+The footer version label is read at runtime: `script.js` fetches `package.json`
+and writes `Version X.Y.Z` into the page, so nothing in `index.html` needs to
+change on a bump. CSS/JS are referenced without cache-buster query strings;
+GitHub Pages' cache headers refresh returning visitors within ~10 minutes of a
+deploy.

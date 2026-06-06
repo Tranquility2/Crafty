@@ -316,6 +316,18 @@ function setupScaling() {
     }
 }
 
+function showVersion() {
+    fetch('package.json')
+        .then(response => response.json())
+        .then(data => {
+            const versionElem = document.getElementById('version');
+            if (versionElem) {
+                versionElem.textContent = 'Version ' + data.version;
+            }
+        })
+        .catch(error => console.error('Could not load version:', error));
+}
+
 document.addEventListener('DOMContentLoaded', function () {
  build_area = document.getElementById("build_area");
  Reset();
@@ -332,5 +344,6 @@ document.addEventListener('DOMContentLoaded', function () {
     initiButton.addEventListener('click', initIcon);
 
     setupScaling();
+    showVersion();
 });
 
