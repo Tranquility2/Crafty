@@ -293,10 +293,10 @@ function generateImageAndDownload() {
 function generateImage() {
     captureBuildArea().then(function (canvas) {
         const dataURL = canvas.toDataURL();
-        const img = document.createElement('img');
-
-        img.src = dataURL;
-        document.body.appendChild(img);
+        const img = document.getElementById('resultImage');
+        if (img) {
+            img.src = dataURL;
+        }
     });
 }
 
