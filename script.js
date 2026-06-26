@@ -278,38 +278,24 @@ function generateImage() {
 function setupScaling() {
     let currentScale = 1; // 1: 1x, 1.5: 1.5x, 2: 2x
     const scaleButton = document.getElementById('scaleMainArea');
-    const scaleArea = document.getElementById('scale_area');
     const buildArea = document.getElementById('build_area');
 
-    if (scaleButton && scaleArea) {
-        buildArea.style.transformOrigin = 'top left';
-        scaleButton.addEventListener('click', function () {
-            if (currentScale === 1) {
-                currentScale = 1.5;
-            } else if (currentScale === 1.5) {
-                currentScale = 2;
-            } else { // currentScale === 2
-                currentScale = 1;
-            }
+    if (!scaleButton || !buildArea) return;
 
-            scaleButton.textContent = currentScale + 'x';
-
-            // Measure the unscaled size of buildArea so scale_area can
-            // reserve enough room and not overlap sibling buttons.
-            buildArea.style.transform = '';
-            scaleArea.style.width = '';
-            scaleArea.style.height = '';
-            const naturalWidth = buildArea.offsetWidth;
-            const naturalHeight = buildArea.offsetHeight;
-
-            buildArea.style.transform = 'scale(' + currentScale + ')';
-            scaleArea.style.width = naturalWidth * currentScale + 'px';
-            scaleArea.style.height = naturalHeight * currentScale + 'px';
-            // When scaled, anchor build_area to the top-left of scale_area
-            // so the scaled content does not overflow into sibling buttons.
-            scaleArea.style.justifyContent = currentScale === 1 ? '' : 'flex-start';
-        });
-    }
+    scaleButton.addEventListener('click', function () {
+        if (currentScale === 1) {
+            currentScale = 1.5;
+        } else if (currentScale === 1.5) {
+            currentScale = 2;
+        } else { // currentScale === 2
+            currentScale = 1;
+        }
+        scaleButton.textContent = currentScale + 'x';
+        // CSS zoom (unlike transform: scale) actually affects layout, so
+        // build_area's parent grows with it and sibling buttons stay
+        // adjacent. No need to track widths manually.
+        buildArea.style.zoom = currentScale;
+    });
 }
 
 function showVersion() {
