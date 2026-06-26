@@ -2,3 +2,6 @@
 .vscode/
 node_modules/
 .playwright-mcp/
+.live-server.pid
+.live-server.port
+.live-server.log
