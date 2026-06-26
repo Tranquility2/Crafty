@@ -1,3 +1,4 @@
 .idx/
 .vscode/
 node_modules/
+.playwright-mcp/

@@ -118,26 +118,16 @@ function updateIcon() {
         let img_elem = currentlyEditedIcon.querySelector('img');
         currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = countInput;
 
-        if (newImageUrl && !img_elem) {
-            console.log("Fetching new image")
-            fetch(newImageUrl)
-                .then(response => response.blob())
-                .then(blob => {
-                    const reader = new FileReader();
-                    reader.onloadend = function () {
-                        img_elem.src = reader.result; // Set the base64 string as the image source
-                    };
-                    reader.readAsDataURL(blob); // Convert the blob to a base64 string
-                })
-                .catch(error => console.error('Error fetching image:', error));
-
-            console.log("Creating new image")
-            img_elem = document.createElement("IMG");
-            img_elem.height = icon_height;
-            img_elem.width = icon_width;
-            console.log("Inserting new image")
-            currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
-        } else if (img_elem && imageUrlInput == "") {
+        if (newImageUrl) {
+            if (!img_elem) {
+                console.log("Creating new image")
+                img_elem = document.createElement("IMG");
+                img_elem.height = icon_height;
+                img_elem.width = icon_width;
+                currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
+            }
+            img_elem.src = newImageUrl;
+        } else if (img_elem) {
             console.log("Removing image")
             currentlyEditedIcon.removeChild(img_elem);
         }
