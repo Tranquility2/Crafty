@@ -33,6 +33,10 @@ Click on an existing icon to open an edit frame. Here you can:
 📷 Click the "Preview Image" button to create a static image of the current recipe build area.  
 💾 Click the "Save Image" button to save the image to your computer.
 
+#### Examples
+
+See [EXAMPLES.md](EXAMPLES.md) for a few sample recipes built with Crafty.
+
 ---
 
 ### Disclaimer
