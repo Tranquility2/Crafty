@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
     <meta charset="utf-8">
     <title>Crafty</title>
     <meta name="description" content="Create factorio like recipe">
@@ -10,52 +13,66 @@
 </head>
 
 <body>
-    <div>
-        <div>
-            <p>Recipe</p>
+    <div class="recipe-section">
+        <div class="recipe-top-row">
+            <div class="section-header">
+                <p>Recipe</p>
+            </div>
+            <button id="scaleMainArea">1x</button>
         </div>
         <div id="main_area">
             <div class="button-column">
-                <button class="AddIcon" onclick="AddIcon(IconType.Input)">+</button>
-                <button class="RemoveIcon" onclick="RemoveIcon(IconType.Input)">-</button>
+                <button class="AddIcon" onclick="AddIcon(IconType.Input)" title="Add input">+</button>
+                <button class="RemoveIcon" onclick="RemoveIcon(IconType.Input)" title="Remove input">−</button>
             </div>
             <div id="scale_area">
                 <div id="build_area"></div>
             </div>
             <div class="button-column">
-                <button class="AddIcon" onclick="AddIcon(IconType.Output)">+</button>
-                <button class="RemoveIcon" onclick="RemoveIcon(IconType.Output)">-</button>
+                <button class="AddIcon" onclick="AddIcon(IconType.Output)" title="Add output">+</button>
+                <button class="RemoveIcon" onclick="RemoveIcon(IconType.Output)" title="Remove output">−</button>
             </div>
         </div>
     </div>
 
-    <div id="editFrame"
-        style="display: none; border: 1px solid black; background-color: rgba(255, 255, 255, 0); padding: 10px;">
-        <label for="imageUrl">Image URL:</label>
-        <input type="text" id="imageUrl"><br>
-
-        <label for="imageFile">Upload Image:</label>
-        <input type="file" id="imageFile" accept="image/*" onchange="imageFile(event)"><br>
-
-        <label for="emoji">Emoji:</label>
-        <input type="text" id="emoji" maxlength="8" size="4" placeholder="e.g. 🐛">
-        <button type="button" id="emojiPickerToggle" title="Pick emoji">😀</button>
+    <div id="editFrame" style="display: none;">
+        <div class="edit-row">
+            <label for="imageUrl">Image URL</label>
+            <input type="text" id="imageUrl">
+        </div>
+        <div class="edit-row">
+            <label for="imageFile">Upload Image</label>
+            <input type="file" id="imageFile" accept="image/*" onchange="imageFile(event)">
+        </div>
+        <div class="edit-row">
+            <label for="emoji">Emoji</label>
+            <div class="edit-inline">
+                <input type="text" id="emoji" maxlength="8" size="4" placeholder="e.g. 🐛">
+                <button type="button" id="emojiPickerToggle" title="Pick emoji">😀</button>
+            </div>
+        </div>
         <div id="emojiPickerWrapper" style="display:none;">
             <emoji-picker></emoji-picker>
-        </div><br><br>
-
-        <label for="count">Count:</label>
-        <input type="number" id="count" min="1"><br><br>
-
-        <button id="updateIcon">Update</button>
-        <button id="initIcon">Init</button>
+        </div>
+        <div class="edit-row">
+            <label for="count">Count</label>
+            <input type="number" id="count" min="1">
+        </div>
+        <div class="edit-actions">
+            <button id="updateIcon" class="primary">Update</button>
+            <button id="initIcon">Init</button>
+        </div>
     </div>
 
     <div id="resultFrame">
-        <button id="scaleMainArea">1x</button>
-        <button id="generateImage">Preview Image</button>
-        <button id="saveImage">Save Image</button>
-        <img id="resultImage">
+        <div class="result-actions">
+            <button id="generateImage">Preview Image</button>
+            <button id="saveImage" class="primary">Save Image</button>
+        </div>
+        <div class="preview-panel">
+            <div class="preview-label">Preview</div>
+            <img id="resultImage">
+        </div>
     </div>
 
     <footer>

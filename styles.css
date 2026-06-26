@@ -1,61 +1,122 @@
+:root {
+    /* Outer / window backdrop - darkest */
+    --bg: #1f1f1f;
+    --bg-elev: #2a2a2a;
+
+    /* Panel surface (medium-dark, like the form area around rows) */
+    --panel-bg: #424242;
+    --panel-header-bg: #2c2c2c;
+
+    /* Row / button surface (medium gray, like the game's row tiles) */
+    --surface: #5a5a5a;
+    --surface-hi: #6d6d6d;
+    --surface-lo: #4a4a4a;
+
+    /* Recessed input surface */
+    --input-bg: #2e2e2e;
+
+    /* Bevel highlights (thin, 1px) */
+    --bevel-light: #8a8a8a;
+    --bevel-light-soft: #6a6a6a;
+    --bevel-dark: #1a1a1a;
+    --bevel-dark-soft: #2e2e2e;
+
+    /* Text */
+    --text: #f1f1f1;
+    --text-dim: #cfcfcf;
+    --text-mute: #9a9a9a;
+
+    /* Factorio's "go" green for primary actions */
+    --green: #6aa84f;
+    --green-hi: #8bc36a;
+    --green-lo: #4d7c39;
+    --green-deep: #2d4a21;
+
+    /* Amber: reserved for small icon/edit accents and links */
+    --accent: #ffa624;
+    --accent-hi: #ffc05c;
+    --accent-deep: #7a4b0f;
+}
+
 html,
 body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
-
-    border: 1px solid #1f1f1f;
-    border-right-width: 0;
-    margin-top: 0;
-    background-color: #333;
-    color: #c1c1c1;
-
-    position: relative;
-    line-height: 1.6;
+    font-family: "Titillium Web", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
 }
 
-table {
-    font-size: 100%;
+body {
+    padding: 12px 16px 90px;
 }
 
-td {
-    display: table-cell;
-    vertical-align: middle;
+.section-header {
+    padding: 6px 14px;
+    margin: 4px 0 10px;
+    background: var(--panel-header-bg);
+    border-top: 1px solid var(--bevel-light-soft);
+    border-left: 1px solid var(--bevel-light-soft);
+    border-right: 1px solid var(--bevel-dark);
+    border-bottom: 1px solid var(--bevel-dark);
+    display: inline-block;
 }
 
-.infobox-vrow-value {
-    border: 1px solid #1f1f1f;
-    background-color: #333;
-    color: #c1c1c1;
+.section-header p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    color: var(--text);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
 
+#main_area {
     display: flex;
     align-items: center;
+    padding: 8px;
+    background: var(--panel-bg);
+    border-top: 1px solid var(--bevel-light-soft);
+    border-left: 1px solid var(--bevel-light-soft);
+    border-right: 1px solid var(--bevel-dark);
+    border-bottom: 1px solid var(--bevel-dark);
+    width: max-content;
 }
 
-td.infobox-vrow-value,
-.infobox tr td.infobox-extra {
-    border-top: 2px solid #3e3e3e;
-    border-bottom: 2px solid #3e3e3e;
-
+.recipe-section {
+    width: max-content;
 }
 
-#build_area {
+.recipe-top-row {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #333;
-    border: 1px solid #1f1f1f;
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
-    border-top: 2px solid #3e3e3e;
-    border-bottom: 2px solid #3e3e3e;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.recipe-top-row .section-header {
+    margin: 4px 0 0;
 }
 
 #scale_area {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#build_area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1a1a1a;
+    padding: 4px 8px;
+    border-top: 1px solid var(--bevel-dark);
+    border-left: 1px solid var(--bevel-dark);
+    border-right: 1px solid var(--bevel-light-soft);
+    border-bottom: 1px solid var(--bevel-light-soft);
 }
 
 .factorio-icon[style*="background-color:#999"],
@@ -79,7 +140,14 @@ td.infobox-vrow-value,
     padding: 3px;
     width: 40px;
     height: 40px;
-    border: 1px solid #4B4543;
+    border: 1px solid #2a2a2a;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.factorio-icon:hover {
+    border-color: var(--green-hi);
+    box-shadow: 0 0 0 1px var(--green);
 }
 
 .factorio-icon img {
@@ -95,7 +163,6 @@ td.infobox-vrow-value,
     font-size: smaller;
     font-weight: bold;
     text-shadow: 0px 1px 1px #000, 0px -1px 1px #000, 1px 0px 1px #000, -1px 0px 1px #000;
-
 }
 
 .factorio-icon-emoji {
@@ -110,70 +177,293 @@ td.infobox-vrow-value,
     user-select: none;
 }
 
-#resultImage {
-    display: block;
-    margin-top: 8px;
-    max-width: 100%;
-    height: auto;
+/* Factorio-style beveled buttons - medium gray with thin 1px bevels */
+
+button {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    color: var(--text);
+    background: var(--surface);
+    border-top: 1px solid var(--bevel-light);
+    border-left: 1px solid var(--bevel-light);
+    border-right: 1px solid var(--bevel-dark);
+    border-bottom: 1px solid var(--bevel-dark);
+    border-radius: 0;
+    padding: 5px 14px;
+    cursor: pointer;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    transition: background 0.1s, color 0.1s;
 }
 
-#emojiPickerWrapper {
-    margin-top: 6px;
+button:hover {
+    background: var(--surface-hi);
 }
 
-emoji-picker {
-    --background: #2a2a2a;
-    --border-color: #555;
-    --input-border-color: #555;
-    --input-font-color: #eee;
-    --input-placeholder-color: #888;
-    --indicator-color: #c1c1c1;
-    --category-font-color: #ddd;
-    --button-active-background: #444;
-    --button-hover-background: #3a3a3a;
-    color: #eee;
+button:active {
+    background: var(--surface-lo);
+    border-top-color: var(--bevel-dark);
+    border-left-color: var(--bevel-dark);
+    border-right-color: var(--bevel-light);
+    border-bottom-color: var(--bevel-light);
+}
+
+button:focus-visible {
+    outline: 2px solid var(--green-hi);
+    outline-offset: 1px;
+}
+
+/* Primary action - Factorio green */
+button.primary {
+    background: linear-gradient(180deg, var(--green-hi) 0%, var(--green-lo) 100%);
+    border-top-color: #a6d68a;
+    border-left-color: #a6d68a;
+    border-right-color: var(--green-deep);
+    border-bottom-color: var(--green-deep);
+    color: #0f1d08;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+button.primary:hover {
+    background: linear-gradient(180deg, #a3d684 0%, var(--green) 100%);
+    color: #000;
+}
+
+button.primary:active {
+    background: linear-gradient(180deg, var(--green-lo) 0%, var(--green-hi) 100%);
+    border-top-color: var(--green-deep);
+    border-left-color: var(--green-deep);
+    border-right-color: #a6d68a;
+    border-bottom-color: #a6d68a;
+}
+
+button.pill {
+    border-radius: 999px;
+    padding: 4px 14px;
+    min-width: 44px;
 }
 
 .button-column {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-right: 5px; 
-    margin-left: 5px;
+    gap: 4px;
+    margin: 0 6px;
 }
 
 .AddIcon,
 .RemoveIcon {
     height: 22px;
     width: 32px;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1;
 }
+
+/* Edit frame */
+
+#editFrame {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: var(--panel-bg);
+    border-top: 1px solid var(--bevel-light-soft);
+    border-left: 1px solid var(--bevel-light-soft);
+    border-right: 1px solid var(--bevel-dark);
+    border-bottom: 1px solid var(--bevel-dark);
+    max-width: 460px;
+}
+
+.edit-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.edit-row label {
+    flex: 0 0 110px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    color: var(--text);
+}
+
+.edit-row input[type="text"],
+.edit-row input[type="number"] {
+    flex: 1;
+    min-width: 0;
+}
+
+.edit-inline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+}
+
+.edit-inline input {
+    flex: 1;
+    min-width: 0;
+}
+
+.edit-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+input[type="text"],
+input[type="number"] {
+    font: inherit;
+    font-size: 13px;
+    color: var(--text);
+    background: var(--input-bg);
+    border-top: 1px solid var(--bevel-dark);
+    border-left: 1px solid var(--bevel-dark);
+    border-right: 1px solid var(--bevel-dark-soft);
+    border-bottom: 1px solid var(--bevel-dark-soft);
+    border-radius: 0;
+    padding: 5px 8px;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-right-color: var(--green);
+    border-bottom-color: var(--green);
+    box-shadow: inset 0 0 0 1px rgba(106, 168, 79, 0.3);
+}
+
+input[type="file"] {
+    color: var(--text-dim);
+    font-size: 13px;
+}
+
+input[type="file"]::file-selector-button {
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--surface);
+    border-top: 1px solid var(--bevel-light);
+    border-left: 1px solid var(--bevel-light);
+    border-right: 1px solid var(--bevel-dark);
+    border-bottom: 1px solid var(--bevel-dark);
+    border-radius: 0;
+    padding: 3px 10px;
+    margin-right: 8px;
+    cursor: pointer;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: var(--surface-hi);
+}
+
+#emojiPickerWrapper {
+    margin: 6px 0 12px;
+}
+
+emoji-picker {
+    --background: var(--panel-bg);
+    --border-color: var(--bevel-dark);
+    --input-border-color: var(--bevel-dark);
+    --input-font-color: var(--text);
+    --input-placeholder-color: var(--text-mute);
+    --indicator-color: var(--green);
+    --category-font-color: var(--text-dim);
+    --button-active-background: var(--surface);
+    --button-hover-background: var(--surface-hi);
+    color: var(--text);
+}
+
+/* Result frame */
+
+#resultFrame {
+    margin-top: 14px;
+}
+
+.result-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.preview-panel {
+    margin-top: 10px;
+    padding: 10px;
+    background: var(--panel-bg);
+    border-top: 1px solid var(--bevel-light-soft);
+    border-left: 1px solid var(--bevel-light-soft);
+    border-right: 1px solid var(--bevel-dark);
+    border-bottom: 1px solid var(--bevel-dark);
+    max-width: max-content;
+}
+
+.preview-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    color: var(--text);
+    margin-bottom: 6px;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+#resultImage {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+#resultImage:not([src]),
+#resultImage[src=""] {
+    display: none;
+}
+
+.preview-panel:has(#resultImage:not([src])),
+.preview-panel:has(#resultImage[src=""]) {
+    display: none;
+}
+
+/* Footer */
 
 footer {
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 100%;
-    background-color: #333;
-    padding: 10px 0;
+    right: 0;
+    background: var(--bg-elev);
+    border-top: 1px solid var(--bevel-light-soft);
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    box-sizing: border-box;
 }
 
 #version {
-    font-size: small;
+    font-size: 13px;
     font-style: italic;
+    color: var(--text-dim);
 }
 
 #disclaimer {
     display: block;
-    font-size: x-small;
-    color: #888;
+    font-size: 11px;
+    color: var(--text-mute);
     max-width: 60ch;
 }
 
 #disclaimer a {
-    color: #aaa;
+    color: var(--accent);
+    text-decoration: none;
 }
 
-#main_area {
-    display: flex;
-    align-items: center;
+#disclaimer a:hover {
+    text-decoration: underline;
 }
