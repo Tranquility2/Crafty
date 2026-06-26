@@ -13,8 +13,8 @@ var IconType = {
     Middle: 'middle',
 };
 
-function BuildIconElement(icon_url, count, icon_type) {
-    console.log("Adding %s Icon (count=%s, url=%s)", icon_type, count, icon_url)
+function BuildIconElement(icon_url, count, icon_type, emoji) {
+    console.log("Adding %s Icon (count=%s, url=%s, emoji=%s)", icon_type, count, icon_url, emoji || "")
     var icon_elem = document.createElement("div");
     icon_elem.className = "factorio-icon";
     icon_elem.style.backgroundColor = "#999"; // Placeholder style
@@ -26,6 +26,8 @@ function BuildIconElement(icon_url, count, icon_type) {
 
         const editFrame = document.getElementById('editFrame');
         document.getElementById('imageUrl').value = clickedIcon.querySelector('img') ? clickedIcon.querySelector('img').src : '';
+        const emojiSpan = clickedIcon.querySelector('.factorio-icon-emoji');
+        document.getElementById('emoji').value = emojiSpan ? emojiSpan.textContent : '';
         document.getElementById('count').value = clickedIcon.querySelector('.factorio-icon-text').textContent;
         editFrame.style.display = 'block'; // Show the edit frame
         editFrame.dataset.editingIcon = clickedIcon.dataset.iconId; // Store the ID of the icon being edited
@@ -54,6 +56,11 @@ function BuildIconElement(icon_url, count, icon_type) {
         img_elem.height = icon_height;
         img_elem.width = icon_width;
         icon_elem.appendChild(img_elem);
+    } else if (emoji) {
+        const emoji_elem = document.createElement("span");
+        emoji_elem.className = "factorio-icon-emoji";
+        emoji_elem.textContent = emoji;
+        icon_elem.appendChild(emoji_elem);
     }
 
     text_elem = document.createElement("div");
@@ -70,17 +77,7 @@ function handleDroppedImage(file, targetIconElement) {
     if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onload = function (e) {
-            const imageUrl = e.target.result;
-            let img_elem = targetIconElement.querySelector('img');
-            if (img_elem) {
-                img_elem.src = imageUrl;
-            } else {
-                img_elem = document.createElement("IMG");
-                img_elem.src = imageUrl;
-                img_elem.height = icon_height; // Use the defined icon height
-                img_elem.width = icon_width; // Use the defined icon width
-                targetIconElement.insertBefore(img_elem, targetIconElement.querySelector('.factorio-icon-text')); // Insert before the text
-            }
+            setIconImage(targetIconElement, e.target.result);
         };
         reader.readAsDataURL(file); // Read the image file as a data URL
     } else {
@@ -94,47 +91,66 @@ function imageFile(event) {
     const countInput = document.getElementById('count').value;
     currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = countInput;
 
-    let img_elem = currentlyEditedIcon.querySelector('img');
-    if (img_elem) {
-        img_elem.src = imageUrl;
-    } else {
-        img_elem = document.createElement("IMG");
-        img_elem.src = imageUrl;
-        img_elem.height = icon_height;
-        img_elem.width = icon_width;
-        currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
-    }
+    setIconImage(currentlyEditedIcon, imageUrl);
+    document.getElementById('emoji').value = '';
     event.target.value = ''; // Clear the file input
     document.getElementById('editFrame').style.display = 'none'; // Hide the edit frame
+}
+
+function setIconEmoji(iconElement, emoji) {
+    const existingImg = iconElement.querySelector('img');
+    if (existingImg) iconElement.removeChild(existingImg);
+    let span = iconElement.querySelector('.factorio-icon-emoji');
+    if (emoji) {
+        if (!span) {
+            span = document.createElement('span');
+            span.className = 'factorio-icon-emoji';
+            iconElement.insertBefore(span, iconElement.querySelector('.factorio-icon-text'));
+        }
+        span.textContent = emoji;
+    } else if (span) {
+        iconElement.removeChild(span);
+    }
+}
+
+function setIconImage(iconElement, url) {
+    const span = iconElement.querySelector('.factorio-icon-emoji');
+    if (span) iconElement.removeChild(span);
+    let img_elem = iconElement.querySelector('img');
+    if (url) {
+        if (!img_elem) {
+            img_elem = document.createElement('IMG');
+            img_elem.height = icon_height;
+            img_elem.width = icon_width;
+            iconElement.insertBefore(img_elem, iconElement.querySelector('.factorio-icon-text'));
+        }
+        img_elem.src = url;
+    } else if (img_elem) {
+        iconElement.removeChild(img_elem);
+    }
 }
 
 function updateIcon() {
     console.log("Updating icon");
     if (currentlyEditedIcon) {
         const imageUrlInput = document.getElementById('imageUrl');
+        const emojiInput = document.getElementById('emoji');
         const countInput = document.getElementById('count').value;
         const newImageUrl = imageUrlInput.value;
+        const newEmoji = emojiInput.value.trim();
 
-        let img_elem = currentlyEditedIcon.querySelector('img');
         currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = countInput;
 
-        if (newImageUrl) {
-            if (!img_elem) {
-                console.log("Creating new image")
-                img_elem = document.createElement("IMG");
-                img_elem.height = icon_height;
-                img_elem.width = icon_width;
-                currentlyEditedIcon.insertBefore(img_elem, currentlyEditedIcon.querySelector('.factorio-icon-text'));
-            }
-            img_elem.src = newImageUrl;
-        } else if (img_elem) {
-            console.log("Removing image")
-            currentlyEditedIcon.removeChild(img_elem);
+        if (newEmoji) {
+            setIconEmoji(currentlyEditedIcon, newEmoji);
+        } else {
+            setIconImage(currentlyEditedIcon, newImageUrl);
         }
 
         document.getElementById('editFrame').style.display = 'none';
         currentlyEditedIcon = null; // Clear the reference
         imageUrlInput.value = ''; // Clear the URL input
+        emojiInput.value = ''; // Clear the emoji input
         console.log("Icon updated");
     }
 }
@@ -142,12 +158,9 @@ function updateIcon() {
 function initIcon() {
     if (currentlyEditedIcon) {
         console.log("Initializing icon");
-        // Reset the image URL
-        const img_elem = currentlyEditedIcon.querySelector('img');
-        if (img_elem) {
-            img_elem.src = ""; // Set to an empty string or a default placeholder image URL
-            currentlyEditedIcon.removeChild(img_elem);
-        }
+        // Clear any image or emoji visual
+        setIconImage(currentlyEditedIcon, "");
+        setIconEmoji(currentlyEditedIcon, "");
 
         // Reset the count to 1
         const text_elem = currentlyEditedIcon.querySelector('.factorio-icon-text');
@@ -155,6 +168,7 @@ function initIcon() {
 
         document.getElementById('editFrame').style.display = 'none';
         document.getElementById('imageUrl').value = ''; // Clear the URL input
+        document.getElementById('emoji').value = ''; // Clear the emoji input
         currentlyEditedIcon = null; // Clear the reference
     }
 }
@@ -321,6 +335,23 @@ function showVersion() {
         .catch(error => console.error('Could not load version:', error));
 }
 
+function setupEmojiPicker() {
+    const wrapper = document.getElementById('emojiPickerWrapper');
+    const toggle = document.getElementById('emojiPickerToggle');
+    const picker = wrapper ? wrapper.querySelector('emoji-picker') : null;
+    const emojiInput = document.getElementById('emoji');
+    if (!wrapper || !toggle || !picker || !emojiInput) return;
+
+    toggle.addEventListener('click', function () {
+        wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
+    });
+
+    picker.addEventListener('emoji-click', function (event) {
+        emojiInput.value = event.detail.unicode;
+        wrapper.style.display = 'none';
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
  build_area = document.getElementById("build_area");
  Reset();
@@ -336,6 +367,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const initiButton = document.getElementById('initIcon');
     initiButton.addEventListener('click', initIcon);
 
+    setupEmojiPicker();
     setupScaling();
     showVersion();
 });

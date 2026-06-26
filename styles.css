@@ -89,6 +89,35 @@ td.infobox-vrow-value,
 
 }
 
+.factorio-icon-emoji {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 26px;
+    line-height: 1;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    user-select: none;
+}
+
+#emojiPickerWrapper {
+    margin-top: 6px;
+}
+
+emoji-picker {
+    --background: #2a2a2a;
+    --border-color: #555;
+    --input-border-color: #555;
+    --input-font-color: #eee;
+    --input-placeholder-color: #888;
+    --indicator-color: #c1c1c1;
+    --category-font-color: #ddd;
+    --button-active-background: #444;
+    --button-hover-background: #3a3a3a;
+    color: #eee;
+}
+
 .button-column {
     display: flex;
     flex-direction: column;

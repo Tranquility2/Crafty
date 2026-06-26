@@ -20,6 +20,7 @@ Use the `+` and `-` buttons next to the input and output areas to add or remove 
 - **Updating Icons:**   
 Click on an existing icon to open an edit frame. Here you can:  
 🖼️ Provide an image URL or upload an image file to change the icon's appearance.   
+😀 Type an emoji directly or pick one from the built-in emoji picker (rendered using your OS's native emoji font).   
 🔢 Adjust the count displayed on the icon.   
 ✔️ Click "Update" to apply your changes.
 
