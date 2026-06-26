@@ -252,9 +252,21 @@ function RemoveIcon(icon_type) {
     }
 }
 
-function generateImageAndDownload() {
+function captureBuildArea() {
     const buildArea = document.getElementById('build_area');
-    html2canvas(buildArea).then(function (canvas) {
+    // html2canvas ignores CSS `zoom`, so temporarily clear it and render at
+    // an equivalent resolution via the `scale` option instead.
+    const scale = parseFloat(buildArea.style.zoom) || 1;
+    const originalZoom = buildArea.style.zoom;
+    buildArea.style.zoom = '';
+    return html2canvas(buildArea, { useCORS: true, backgroundColor: null, scale: scale })
+        .finally(function () {
+            buildArea.style.zoom = originalZoom;
+        });
+}
+
+function generateImageAndDownload() {
+    captureBuildArea().then(function (canvas) {
         const dataURL = canvas.toDataURL('image/png');
         const link = document.createElement('a');
 
@@ -265,8 +277,7 @@ function generateImageAndDownload() {
 }
 
 function generateImage() {
-    const buildArea = document.getElementById('build_area');
-    html2canvas(buildArea).then(function (canvas) {
+    captureBuildArea().then(function (canvas) {
         const dataURL = canvas.toDataURL();
         const img = document.createElement('img');
 
