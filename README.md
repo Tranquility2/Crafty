@@ -11,6 +11,7 @@ Just use https://tranquility2.github.io/Crafty/
 
 #### From source
 Open `index.html` in your web browser to use the application.
+For a local dev server with live reload, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
 #### Features
 - **Adding/Removing Icons:**   
@@ -22,16 +23,15 @@ Click on an existing icon to open an edit frame. Here you can:
 🔢 Adjust the count displayed on the icon.   
 ✔️ Click "Update" to apply your changes.
 
-- **Generating Image:**  
-📷 Click the "Generate Image" button to create a static image of the current recipe build area.  
+- **Drag and Drop Image Update:**  
+✨ You can also update an icon's image by dragging an image file from your computer and dropping it directly onto the desired icon in the input or output area.
+
+- **Scaling the Build Area:**  
+🔬 Use the `1x` / `1.5x` / `2x` button below the recipe to scale the build area up or down.
+
+- **Generating an Image:**  
+📷 Click the "Preview Image" button to create a static image of the current recipe build area.  
 💾 Click the "Save Image" button to save the image to your computer.
-
-### Updates 
-#### Drag and Drop Image Update
-✨ You can also update an icon's image by simply dragging an image file from your computer and dropping it directly onto the desired icon in the input or output area.
-
-#### Scaling Build Area
-🔬 You can now scale the build area using the button next to the input icons. 
 
 ---
 
