@@ -35,6 +35,22 @@ Click on an existing icon to open an edit frame. Here you can:
 
 ---
 
+### Disclaimer
+
+Crafty is an unofficial fan tool and is not affiliated with, endorsed
+by, or sponsored by Wube Software. "Factorio" and related assets are
+trademarks of Wube Software.
+
+Crafty does not ship or host any game art. Images shown in a recipe
+come from URLs you paste or files you upload locally in your browser.
+You are responsible for ensuring you have the right to use any image
+you load into the app, and for complying with the license or terms of
+the source you load it from. The authors of Crafty accept no
+responsibility for content that users load, display, or export through
+the tool.
+
+---
+
 Made with lots of ❤️ to [Factorio](https://factorio.com/) and admiration to the Wube team.
 
 Inspired by pages like https://wiki.factorio.com/Science_pack

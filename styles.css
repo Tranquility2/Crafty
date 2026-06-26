@@ -117,6 +117,17 @@ footer {
     font-style: italic;
 }
 
+#disclaimer {
+    display: block;
+    font-size: x-small;
+    color: #888;
+    max-width: 60ch;
+}
+
+#disclaimer a {
+    color: #aaa;
+}
+
 #main_area {
     display: flex;
     align-items: center;
