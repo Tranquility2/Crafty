@@ -281,10 +281,8 @@ function setupScaling() {
     const scaleArea = document.getElementById('scale_area');
     const buildArea = document.getElementById('build_area');
 
-    // Store initial dimensions
-    const initialWidth = scaleArea.offsetWidth;
-    const initialHeight = scaleArea.offsetHeight;
     if (scaleButton && scaleArea) {
+        buildArea.style.transformOrigin = 'top left';
         scaleButton.addEventListener('click', function () {
             if (currentScale === 1) {
                 currentScale = 1.5;
@@ -295,13 +293,21 @@ function setupScaling() {
             }
 
             scaleButton.textContent = currentScale + 'x';
-            // Apply scale transform
+
+            // Measure the unscaled size of buildArea so scale_area can
+            // reserve enough room and not overlap sibling buttons.
+            buildArea.style.transform = '';
+            scaleArea.style.width = '';
+            scaleArea.style.height = '';
+            const naturalWidth = buildArea.offsetWidth;
+            const naturalHeight = buildArea.offsetHeight;
+
             buildArea.style.transform = 'scale(' + currentScale + ')';
-            // Calculate and apply new dimensions
-            scaleArea.style.width = initialWidth * currentScale + 'px';
-            scaleArea.style.height = initialHeight * currentScale + 'px';
-            // Reset the origin to the top-left corner
-            scaleArea.style.transformOrigin = 'top left';
+            scaleArea.style.width = naturalWidth * currentScale + 'px';
+            scaleArea.style.height = naturalHeight * currentScale + 'px';
+            // When scaled, anchor build_area to the top-left of scale_area
+            // so the scaled content does not overflow into sibling buttons.
+            scaleArea.style.justifyContent = currentScale === 1 ? '' : 'flex-start';
         });
     }
 }
