@@ -94,9 +94,8 @@ function imageFile(event) {
     currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = countInput;
 
     setIconImage(currentlyEditedIcon, imageUrl);
-    document.getElementById('emoji').value = '';
     event.target.value = ''; // Clear the file input
-    document.getElementById('editFrame').style.display = 'none'; // Hide the edit frame
+    closeEditFrame();
 }
 
 function setIconEmoji(iconElement, emoji) {
@@ -132,47 +131,41 @@ function setIconImage(iconElement, url) {
     }
 }
 
+function closeEditFrame() {
+    document.getElementById('editFrame').style.display = 'none';
+    document.getElementById('imageUrl').value = '';
+    document.getElementById('emoji').value = '';
+    currentlyEditedIcon = null;
+}
+
 function updateIcon() {
     console.log("Updating icon");
-    if (currentlyEditedIcon) {
-        const imageUrlInput = document.getElementById('imageUrl');
-        const emojiInput = document.getElementById('emoji');
-        const countInput = document.getElementById('count').value;
-        const newImageUrl = imageUrlInput.value;
-        const newEmoji = emojiInput.value.trim();
+    if (!currentlyEditedIcon) return;
 
-        currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = countInput;
+    const newImageUrl = document.getElementById('imageUrl').value;
+    const newEmoji = document.getElementById('emoji').value.trim();
+    const newCount = document.getElementById('count').value;
 
-        if (newEmoji) {
-            setIconEmoji(currentlyEditedIcon, newEmoji);
-        } else {
-            setIconImage(currentlyEditedIcon, newImageUrl);
-        }
-
-        document.getElementById('editFrame').style.display = 'none';
-        currentlyEditedIcon = null; // Clear the reference
-        imageUrlInput.value = ''; // Clear the URL input
-        emojiInput.value = ''; // Clear the emoji input
-        console.log("Icon updated");
+    currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = newCount;
+    if (newEmoji) {
+        setIconEmoji(currentlyEditedIcon, newEmoji);
+    } else {
+        setIconImage(currentlyEditedIcon, newImageUrl);
     }
+
+    closeEditFrame();
+    console.log("Icon updated");
 }
 
 function initIcon() {
-    if (currentlyEditedIcon) {
-        console.log("Initializing icon");
-        // Clear any image or emoji visual
-        setIconImage(currentlyEditedIcon, "");
-        setIconEmoji(currentlyEditedIcon, "");
+    if (!currentlyEditedIcon) return;
+    console.log("Initializing icon");
 
-        // Reset the count to 1
-        const text_elem = currentlyEditedIcon.querySelector('.factorio-icon-text');
-        text_elem.textContent = "1";
+    setIconImage(currentlyEditedIcon, "");
+    setIconEmoji(currentlyEditedIcon, "");
+    currentlyEditedIcon.querySelector('.factorio-icon-text').textContent = "1";
 
-        document.getElementById('editFrame').style.display = 'none';
-        document.getElementById('imageUrl').value = ''; // Clear the URL input
-        document.getElementById('emoji').value = ''; // Clear the emoji input
-        currentlyEditedIcon = null; // Clear the reference
-    }
+    closeEditFrame();
 }
 
 function Reset() { // build_area must be defined
@@ -181,82 +174,73 @@ function Reset() { // build_area must be defined
     build_area.appendChild(BuildIconElement("", "1", IconType.Output));
 }
 
+function getArrowNode() {
+    for (const node of build_area.childNodes) {
+        if (node.textContent === "→") return node;
+    }
+    return null;
+}
+
+function countIconsOfType(icon_type) {
+    return build_area.querySelectorAll(`.factorio-icon[data-icon-type="${icon_type}"]`).length;
+}
+
 function AddIcon(icon_type) {
-    if (icon_type == IconType.Input) {
-        // Find the index of the "→"
-        let arrowIndex = -1;
-        for (let i = 0; i < build_area.childNodes.length; i++) {
-            if (build_area.childNodes[i].textContent === "→") {
-                arrowIndex = i;
-                break;
-            }
+    const newIcon = BuildIconElement("", "1", icon_type);
+
+    if (icon_type === IconType.Input) {
+        const arrow = getArrowNode();
+        // First input never gets a leading '+'; subsequent ones do.
+        if (countIconsOfType(IconType.Input) > 0) {
+            build_area.insertBefore(document.createTextNode("+"), arrow);
         }
-        build_area.insertBefore(BuildIconElement("", "1", IconType.Input), build_area.childNodes[arrowIndex]);
-        // Insert the '+' before the newly added input icon, but only if it's not the first element
-        if (arrowIndex > 0) {
-            build_area.insertBefore(document.createTextNode("+"), build_area.childNodes[arrowIndex]);
+        build_area.insertBefore(newIcon, arrow);
+    } else if (icon_type === IconType.Output) {
+        if (countIconsOfType(IconType.Output) > 0) {
+            build_area.appendChild(document.createTextNode("+"));
         }
-    } else if (icon_type == IconType.Output) {
-        // Insert the '+' before the output icon if it's not the last element
-        build_area.appendChild(document.createTextNode("+"));
-        build_area.appendChild(BuildIconElement("", "1", IconType.Output));
+        build_area.appendChild(newIcon);
     } else {
-        console.log("%s is not a valid option", icon_type)
+        console.log("%s is not a valid option", icon_type);
     }
 }
 
 function RemoveIcon(icon_type) {
-    let iconElements = build_area.querySelectorAll('.factorio-icon');
-    let inputCount = 0;
-    let outputCount = 0;
-
-    // Count current inputs and outputs
-    for (let i = 0; i < iconElements.length; i++) {
-        const node = iconElements[i];
-        if (node.dataset.iconType === IconType.Input) {
-            inputCount++;
-        } else if (node.dataset.iconType === IconType.Output) {
-            outputCount++;
-        }
+    if (icon_type !== IconType.Input && icon_type !== IconType.Output) {
+        console.log("%s is not a valid option", icon_type);
+        return;
+    }
+    if (countIconsOfType(icon_type) <= 1) {
+        console.log("Cannot remove last %s icon.", icon_type);
+        return;
     }
 
+    const nodes = build_area.childNodes;
     if (icon_type === IconType.Input) {
-        if (inputCount <= 1) {
-            console.log("Cannot remove last input icon.");
-            return; // Prevent removal
-        }
-        // Find the first instance of a '+' followed by an input icon and remove both
-        for (let i = 0; i < build_area.childNodes.length; i++) {
-            const node = build_area.childNodes[i];
-            // Check if the current node is a '+' and the next node is an input icon
-            if (node.textContent === "+" && i + 1 < build_area.childNodes.length &&
-                build_area.childNodes[i + 1].classList && build_area.childNodes[i + 1].classList.contains('factorio-icon') &&
-                build_area.childNodes[i + 1].dataset.iconType === IconType.Input) {
-                // Remove the '+'
-                build_area.removeChild(node);
-                // Remove the input icon (which is now at index i)
-                build_area.removeChild(build_area.childNodes[i]);
-                break;
-            }
-        }
-    } else if (icon_type === IconType.Output) {
-        if (outputCount <= 1) {
-            console.log("Cannot remove last output icon.");
-            return; // Prevent removal
-        }
-        // Find the first output icon and remove it
-        for (let i = 0; i < build_area.childNodes.length; i++) {
-            const node = build_area.childNodes[i];
-            if (node.classList && node.classList.contains('factorio-icon') && node.dataset.iconType === IconType.Output) {
-                build_area.removeChild(node);
-                if (i < build_area.childNodes.length && build_area.childNodes[i].textContent === "+") {
-                    build_area.removeChild(build_area.childNodes[i]);
-                }
-                break;
-            }
+        // Find the first '+' followed by an input icon and remove both,
+        // so the leading input (which has no preceding '+') is preserved.
+        for (let i = 0; i < nodes.length - 1; i++) {
+            const node = nodes[i];
+            const next = nodes[i + 1];
+            if (node.textContent !== "+") continue;
+            if (!next.classList || !next.classList.contains('factorio-icon')) continue;
+            if (next.dataset.iconType !== IconType.Input) continue;
+            build_area.removeChild(node);
+            build_area.removeChild(nodes[i]); // next, now shifted to i
+            return;
         }
     } else {
-        console.log("%s is not a valid option", icon_type);
+        // Find the first output icon, remove it and the following '+' if any,
+        // so the trailing outputs collapse cleanly.
+        for (let i = 0; i < nodes.length; i++) {
+            const node = nodes[i];
+            if (!node.classList || !node.classList.contains('factorio-icon')) continue;
+            if (node.dataset.iconType !== IconType.Output) continue;
+            build_area.removeChild(node);
+            const next = nodes[i];
+            if (next && next.textContent === "+") build_area.removeChild(next);
+            return;
+        }
     }
 }
 
@@ -349,17 +333,19 @@ function setupEmojiPicker() {
 document.addEventListener('DOMContentLoaded', function () {
     build_area = document.getElementById("build_area");
     Reset();
-    const updateButton = document.getElementById('updateIcon');
-    updateButton.addEventListener('click', updateIcon);
 
-    const generateImageButton = document.getElementById('generateImage');
-    generateImageButton.addEventListener('click', generateImage);
+    document.querySelectorAll('[data-add]').forEach(btn => {
+        btn.addEventListener('click', () => AddIcon(btn.dataset.add));
+    });
+    document.querySelectorAll('[data-remove]').forEach(btn => {
+        btn.addEventListener('click', () => RemoveIcon(btn.dataset.remove));
+    });
 
-    const saveImageButton = document.getElementById('saveImage');
-    saveImageButton.addEventListener('click', generateImageAndDownload);
-
-    const initiButton = document.getElementById('initIcon');
-    initiButton.addEventListener('click', initIcon);
+    document.getElementById('imageFile').addEventListener('change', imageFile);
+    document.getElementById('updateIcon').addEventListener('click', updateIcon);
+    document.getElementById('initIcon').addEventListener('click', initIcon);
+    document.getElementById('generateImage').addEventListener('click', generateImage);
+    document.getElementById('saveImage').addEventListener('click', generateImageAndDownload);
 
     setupEmojiPicker();
     setupScaling();

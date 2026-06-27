@@ -23,15 +23,15 @@
         </div>
         <div id="main_area">
             <div class="button-column">
-                <button class="AddIcon" onclick="AddIcon(IconType.Input)" title="Add input">+</button>
-                <button class="RemoveIcon" onclick="RemoveIcon(IconType.Input)" title="Remove input">−</button>
+                <button class="AddIcon" data-add="input" title="Add input">+</button>
+                <button class="RemoveIcon" data-remove="input" title="Remove input">−</button>
             </div>
             <div id="scale_area">
                 <div id="build_area"></div>
             </div>
             <div class="button-column">
-                <button class="AddIcon" onclick="AddIcon(IconType.Output)" title="Add output">+</button>
-                <button class="RemoveIcon" onclick="RemoveIcon(IconType.Output)" title="Remove output">−</button>
+                <button class="AddIcon" data-add="output" title="Add output">+</button>
+                <button class="RemoveIcon" data-remove="output" title="Remove output">−</button>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
         </div>
         <div class="edit-row">
             <label for="imageFile">Upload Image</label>
-            <input type="file" id="imageFile" accept="image/*" onchange="imageFile(event)">
+            <input type="file" id="imageFile" accept="image/*">
         </div>
         <div class="edit-row">
             <label for="emoji">Emoji</label>
