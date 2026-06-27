@@ -2,6 +2,8 @@
 
 # Crafty
 
+[![Version](https://img.shields.io/github/package-json/v/Tranquility2/Crafty?label=version&color=6aa84f)](package.json)
+
 Crafty is a simple web application that allows users to create and visualize Factorio-like recipes.
 
 ### How to Use
