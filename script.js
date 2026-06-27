@@ -1,4 +1,4 @@
-time_icon_url = 'https://wiki.factorio.com/images/Time_icon.png'
+'use strict';
 
 // Size in pixels
 const icon_height = "32";
@@ -7,7 +7,9 @@ const icon_width = "32";
 // Variable to store the currently edited icon element
 let currentlyEditedIcon = null;
 
-var IconType = {
+let build_area;
+
+const IconType = {
     Input: 'input',
     Output: 'output',
     Middle: 'middle',
@@ -51,7 +53,7 @@ function BuildIconElement(icon_url, count, icon_type, emoji) {
 
 
     if (icon_url) {
-        img_elem = document.createElement("IMG");
+        const img_elem = document.createElement("IMG");
         img_elem.src = icon_url;
         img_elem.height = icon_height;
         img_elem.width = icon_width;
@@ -63,7 +65,7 @@ function BuildIconElement(icon_url, count, icon_type, emoji) {
         icon_elem.appendChild(emoji_elem);
     }
 
-    text_elem = document.createElement("div");
+    const text_elem = document.createElement("div");
     text_elem.className = "factorio-icon-text"
     text_elem.append(count);
     icon_elem.appendChild(text_elem);
@@ -174,9 +176,9 @@ function initIcon() {
 }
 
 function Reset() { // build_area must be defined
-    build_area.appendChild(BuildIconElement(icon_url = "", count = "1", icon_type = IconType.Input));
+    build_area.appendChild(BuildIconElement("", "1", IconType.Input));
     build_area.append("→");
-    build_area.appendChild(BuildIconElement(icon_url = "", count = "1", icon_type = IconType.Output));
+    build_area.appendChild(BuildIconElement("", "1", IconType.Output));
 }
 
 function AddIcon(icon_type) {
@@ -189,23 +191,15 @@ function AddIcon(icon_type) {
                 break;
             }
         }
-        build_area.insertBefore(BuildIconElement(icon_url = "", count = "1", icon_type = IconType.Input), build_area.childNodes[arrowIndex]);
+        build_area.insertBefore(BuildIconElement("", "1", IconType.Input), build_area.childNodes[arrowIndex]);
         // Insert the '+' before the newly added input icon, but only if it's not the first element
         if (arrowIndex > 0) {
             build_area.insertBefore(document.createTextNode("+"), build_area.childNodes[arrowIndex]);
         }
     } else if (icon_type == IconType.Output) {
-        // Find the index of the "→"
-        let arrowIndex = -1;
-        for (let i = 0; i < build_area.childNodes.length; i++) {
-            if (build_area.childNodes[i].textContent === "→") {
-                arrowIndex = i;
-                break;
-            }
-        }
         // Insert the '+' before the output icon if it's not the last element
         build_area.appendChild(document.createTextNode("+"));
-        build_area.appendChild(BuildIconElement(icon_url = "", count = "1", icon_type = IconType.Output));
+        build_area.appendChild(BuildIconElement("", "1", IconType.Output));
     } else {
         console.log("%s is not a valid option", icon_type)
     }
@@ -353,8 +347,8 @@ function setupEmojiPicker() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
- build_area = document.getElementById("build_area");
- Reset();
+    build_area = document.getElementById("build_area");
+    Reset();
     const updateButton = document.getElementById('updateIcon');
     updateButton.addEventListener('click', updateIcon);
 
